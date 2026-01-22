@@ -1,4 +1,4 @@
--- [[ 👑 RXT SERVER - V10 GHOST FARM FIX - Key System ]] + FLIGHT SYSTEM + MOBILE CONTROLS
+-- [[ 👑 ASNO SERVER - V10 GHOST FARM FIX - Key System ]] + FLIGHT SYSTEM + MOBILE CONTROLS
 -- تم التعديل للعمل على جميع الأجهزة + واجهة أصغر
 
 if not game:IsLoaded() then game.Loaded:Wait() end
@@ -182,7 +182,7 @@ local function createMobileControls()
     if not UserInputService.TouchEnabled then return end
     
     local screenGui = Instance.new("ScreenGui", CoreGui)
-    screenGui.Name = "RXT_MobileFlightControls"
+    screenGui.Name = "ASNO_MobileFlightControls"
     screenGui.ResetOnSpawn = false
     
     mobileControlFrame = Instance.new("Frame", screenGui)
@@ -575,13 +575,13 @@ local function toggleCoordinates(state)
         coordinatesConnection = nil
     end
     
-    if CoreGui:FindFirstChild("RXT_Coordinates") then
-        CoreGui:FindFirstChild("RXT_Coordinates"):Destroy()
+    if CoreGui:FindFirstChild("ASNO_Coordinates") then
+        CoreGui:FindFirstChild("ASNO_Coordinates"):Destroy()
     end
     
     if state then
         local coordGui = Instance.new("ScreenGui", CoreGui)
-        coordGui.Name = "RXT_Coordinates"
+        coordGui.Name = "ASNO_Coordinates"
         coordGui.ResetOnSpawn = false
         
         local coordFrame = Instance.new("Frame", coordGui)
@@ -788,12 +788,12 @@ end
 
 -- [[ 🎨 Key GUI ]] --
 local function CreateKeyGui()
-    if CoreGui:FindFirstChild("RXT_KeyGUI") then
-        CoreGui["RXT_KeyGUI"]:Destroy()
+    if CoreGui:FindFirstChild("ASNO_KeyGUI") then
+        CoreGui["ASNO_KeyGUI"]:Destroy()
     end
     
     local KeyGui = Instance.new("ScreenGui", CoreGui)
-    KeyGui.Name = "RXT_KeyGUI"
+    KeyGui.Name = "ASNO_KeyGUI"
     KeyGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     
     -- Background
@@ -825,7 +825,7 @@ local function CreateKeyGui()
     Title.Size = UDim2.new(0.9, 0, 0, 60) -- أصغر
     Title.Position = UDim2.new(0.05, 0, 0.05, 0)
     Title.BackgroundTransparency = 1
-    Title.Text = "🔐 RXT SCRIPT V10\n━━━━━━━━━━━━━━━━━━\n24 HOUR KEY SYSTEM"
+    Title.Text = "🔐 ASNO SCRIPT V10\n━━━━━━━━━━━━━━━━━━\nUnlimted KEY SYSTEM"
     Title.TextColor3 = Color3.fromRGB(170, 120, 255)
     Title.Font = Enum.Font.GothamBold
     Title.TextSize = 16
@@ -846,7 +846,7 @@ local function CreateKeyGui()
     local KeyLabel = Instance.new("TextLabel")
     KeyLabel.Size = UDim2.new(1, 0, 0, 25)
     KeyLabel.BackgroundTransparency = 1
-    KeyLabel.Text = "🔑 ENTER KEY: RXT24"
+    KeyLabel.Text = "🔑 ENTER KEY: ASNO"
     KeyLabel.TextColor3 = Color3.new(1, 1, 1)
     KeyLabel.Font = Enum.Font.GothamBold
     KeyLabel.TextSize = 14
@@ -859,7 +859,7 @@ local function CreateKeyGui()
     KeyBox.TextColor3 = Color3.new(1, 1, 1)
     KeyBox.Font = Enum.Font.GothamBold
     KeyBox.TextSize = 14
-    KeyBox.PlaceholderText = "Type RXT24 here..."
+    KeyBox.PlaceholderText = "Type ASNO here..."
     KeyBox.Text = ""
     KeyBox.Parent = KeyFrame
     
@@ -898,7 +898,7 @@ local function CreateKeyGui()
     DevText.Size = UDim2.new(1, 0, 0, 25)
     DevText.Position = UDim2.new(0, 0, 1, -25)
     DevText.BackgroundTransparency = 1
-    DevText.Text = "⚒️ 3zf & RXT | V10"
+    DevText.Text = "⚒️ Dev By ASNO | V10"
     DevText.TextColor3 = Color3.fromRGB(150, 100, 255)
     DevText.Font = Enum.Font.GothamBold
     DevText.TextSize = 10
@@ -908,7 +908,7 @@ local function CreateKeyGui()
     ActivateBtn.MouseButton1Click:Connect(function()
         local enteredKey = KeyBox.Text:upper():gsub("%s+", "")
         
-        if enteredKey == "RXT24" then
+        if enteredKey == "ASNO" then
             StatusLabel.Text = "✅ Activated! Loading..."
             StatusLabel.TextColor3 = Color3.fromRGB(0, 255, 100)
             
@@ -919,7 +919,7 @@ local function CreateKeyGui()
             KeyGui:Destroy()
             CreateMainGui()
         else
-            StatusLabel.Text = "❌ Wrong Key! Use: RXT24"
+            StatusLabel.Text = "❌ Wrong Key! Use: ASNO"
             StatusLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
             
             ActivateBtn.Text = "❌ WRONG!"
@@ -944,12 +944,12 @@ end
 
 -- [[ 🎨 Main GUI ]] --
 function CreateMainGui()
-    if CoreGui:FindFirstChild("RXT_Master_V10") then
-        CoreGui["RXT_Master_V10"]:Destroy()
+    if CoreGui:FindFirstChild("ASNO_Master_V10") then
+        CoreGui["ASNO_Master_V10"]:Destroy()
     end
     
     local ScreenGui = Instance.new("ScreenGui", CoreGui)
-    ScreenGui.Name = "RXT_Master_V10"
+    ScreenGui.Name = "ASNO_Master_V10"
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     
     -- Main Window (أصغر)
@@ -974,13 +974,13 @@ function CreateMainGui()
     Header.Position = UDim2.new(0, 10, 0, 10)
     Header.BackgroundTransparency = 1
     Header.Text = [[
-👑 RXT V10
+👑 Tools ASNO | V10
 ━━━━━━━━━━━━━
 ⚡ GHOST FARM FIX
 🚀 FLIGHT SYSTEM
 📱 MOBILE CONTROLS
-⚒️ 3zf & RXT
-🔐 Key: RXT24
+⚒️ ASNO 
+🔐 Key: ASNO
 ]]
     Header.TextColor3 = Color3.fromRGB(170, 120, 255)
     Header.Font = Enum.Font.GothamBold
@@ -1003,7 +1003,7 @@ function CreateMainGui()
     OpenBtn.Size = UDim2.new(0, 50, 0, 50)
     OpenBtn.Position = UDim2.new(0, 15, 0.5, -25)
     OpenBtn.BackgroundColor3 = Color3.fromRGB(40, 30, 70)
-    OpenBtn.Text = "RXT\nV10"
+    OpenBtn.Text = "ASNO\nV10"
     OpenBtn.TextColor3 = Color3.fromRGB(170, 120, 255)
     OpenBtn.Font = Enum.Font.GothamBold
     OpenBtn.TextSize = 14
@@ -1438,9 +1438,9 @@ function CreateMainGui()
     DevLabel.Text = [[
 ⚒️ Developer Tools
 ━━━━━━━━━━━━━━
-Developers: 3zf & RXT
+Developers: ASNO
 Version: V10
-Key System: 24 Hours
+Key System: Unlimted
 
 🛡️ Advanced Anti-AFK
 ⚡ Speed System: 16-500
@@ -1472,12 +1472,12 @@ Works on: PC & Mobile
     Footer.Size = UDim2.new(1, 0, 0, 25)
     Footer.Position = UDim2.new(0, 0, 1, -25)
     Footer.BackgroundTransparency = 1
-    Footer.Text = "RXT V10 | 24H KEY | FLIGHT + MOBILE"
+    Footer.Text = "ASNO V10 | Unlimted KEY | FLIGHT + MOBILE"
     Footer.TextColor3 = Color3.fromRGB(150, 100, 255)
     Footer.Font = Enum.Font.GothamBold
     Footer.TextSize = 9
     
-    print("👑 RXT V10 LOADED - COMPATIBLE WITH ALL DEVICES")
+    print("👑 ASNO V10 LOADED - COMPATIBLE WITH ALL DEVICES")
     print("🚀 Flight System: Works on PC & Mobile")
     print("📱 Mobile Controls: Auto-detected")
     print("🔴 Kill Mode: Death protection")
