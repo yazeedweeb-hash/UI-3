@@ -16,7 +16,6 @@ local validKeys = {}
 -- [[ ⚙️ Settings ]] --
 local stealthSpeedEnabled = false
 local speedValue = 50
-local noclipEnabled = false
 local instantInteractionEnabled = false
 local infJumpEnabled = false
 local noRagdollEnabled = false
@@ -1232,25 +1231,6 @@ function CreateMainGui()
     
     AddToggle(P1, "🚫 No Ragdoll", noRagdollEnabled, function(s)
         noRagdollEnabled = s
-    end)
-    
-    AddToggle(P1, "🧱 NoClip", noclipEnabled, function(s)
-        noclipEnabled = s
-        if s then
-            RunService.Stepped:Connect(function()
-                if noclipEnabled and player.Character then
-                    for _, v in pairs(player.Character:GetDescendants()) do
-                        if v:IsA("BasePart") then
-                            v.CanCollide = false
-                        end
-                    end
-                end
-            end)
-        end
-    end)
-    
-    AddToggle(P1, "🦘 Inf Jump", infJumpEnabled, function(s)
-        infJumpEnabled = s
     end)
     
     -- Speed Input (أصغر)
