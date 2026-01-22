@@ -1,96 +1,108 @@
--- إنشاء الشاشة
+-- إنشاء الشاشة الرئيسية
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "NeonHub"
+screenGui.Name = "KengerHubV2"
 screenGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
 screenGui.ResetOnSpawn = false
 
--- الإطار الرئيسي مع تأثير الظل/التوهج
+-- الإطار الرئيسي (المنيو)
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "MainFrame"
-mainFrame.Size = UDim2.new(0, 400, 0, 300)
-mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
-mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+mainFrame.Size = UDim2.new(0, 350, 0, 250)
+mainFrame.Position = UDim2.new(0.5, -175, 0.5, -125)
+mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 mainFrame.BorderSizePixel = 0
-mainFrame.Active = true
-mainFrame.Draggable = true -- تفعيل السحب
 mainFrame.Parent = screenGui
 
+-- إضافة زوايا دائرية وإطار نيون
 local uiCorner = Instance.new("UICorner")
-uiCorner.CornerRadius = UDim.new(0, 15)
+uiCorner.CornerRadius = UDim.new(0, 12)
 uiCorner.Parent = mainFrame
 
-local uiStroke = Instance.new("UIStroke") -- إطار نيون نحيف
+local uiStroke = Instance.new("UIStroke")
 uiStroke.Color = Color3.fromRGB(0, 170, 255)
-uiStroke.Thickness = 2
+uiStroke.Thickness = 1.5
 uiStroke.Parent = mainFrame
 
--- الشريط العلوي
-local topBar = Instance.new("Frame")
-topBar.Size = UDim2.new(1, 0, 0, 40)
-topBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-topBar.BorderSizePixel = 0
-topBar.Parent = mainFrame
+-- شريط العنوان (الجزء المسؤول عن السحب)
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 40)
+titleBar.BackgroundTransparency = 1 -- شفاف لكنه موجود للسحب
+titleBar.Parent = mainFrame
 
-local topCorner = Instance.new("UICorner")
-topCorner.CornerRadius = UDim.new(0, 15)
-topCorner.Parent = topBar
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -50, 1, 0)
+titleLabel.Position = UDim2.new(0, 15, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text = "KENGER HUB PRO"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+titleLabel.Font = Enum.Font.GothamBold
+titleLabel.TextSize = 16
+titleLabel.Parent = titleBar
 
-local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, -20, 1, 0)
-title.Position = UDim2.new(0, 15, 0, 0)
-title.BackgroundTransparency = 1
-title.Text = "KENGER HUB | V2"
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.TextXAlignment = Enum.TextXAlignment.Left
-title.Font = Enum.Font.GothamBold
-title.TextSize = 18
-title.Parent = topBar
+-- زر الإغلاق (X)
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -35, 0, 5)
+closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextSize = 14
+closeButton.Parent = titleBar
 
--- حاوية الأزرار
-local buttonContainer = Instance.new("Frame")
-buttonContainer.Size = UDim2.new(1, -40, 1, -60)
-buttonContainer.Position = UDim2.new(0, 20, 0, 50)
-buttonContainer.BackgroundTransparency = 1
-buttonContainer.Parent = mainFrame
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 6)
+closeCorner.Parent = closeButton
 
-local layout = Instance.new("UIListLayout")
-layout.Padding = UDim.new(0, 10)
-layout.Parent = buttonContainer
+closeButton.MouseButton1Click:Connect(function()
+    screenGui:Destroy() -- يحذف الواجهة تماماً عند الضغط
+end)
 
--- دالة إنشاء أزرار نيون احترافية
-local function createNeonButton(text)
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(1, 0, 0, 45)
-    btn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    btn.Text = text
-    btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-    btn.Font = Enum.Font.GothamMedium
-    btn.TextSize = 14
-    btn.AutoButtonColor = false
-    btn.Parent = buttonContainer
-    
-    local bCorner = Instance.new("UICorner")
-    bCorner.CornerRadius = UDim.new(0, 8)
-    bCorner.Parent = btn
+-- *** كود تحريك المنيو (Draggable Script) ***
+local UserInputService = game:GetService("UserInputService")
+local dragging, dragInput, dragStart, startPos
 
-    -- تأثيرات الماوس (Hover Effect)
-    btn.MouseEnter:Connect(function()
-        btn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-        btn.TextColor3 = Color3.fromRGB(0, 170, 255)
-    end)
-    
-    btn.MouseLeave:Connect(function()
-        btn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-        btn.TextColor3 = Color3.fromRGB(200, 200, 200)
-    end)
-
-    btn.MouseButton1Click:Connect(function()
-        print("Executed: " .. text)
-        -- هنا يمكنك وضع كود الميزة
-    end)
+local function update(input)
+    local delta = input.Position - dragStart
+    mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 end
 
--- إضافة الأزرار
-createNeonButton("Speed Boost (Fast)")
-createNeonButton("Infinite Jump")
-createNeonButton("Teleport to End")
+mainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+        
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+mainFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        update(input)
+    end
+end)
+
+-- إضافة زر وهمي للتجربة
+local actionButton = Instance.new("TextButton")
+actionButton.Size = UDim2.new(0.8, 0, 0, 45)
+actionButton.Position = UDim2.new(0.1, 0, 0.4, 0)
+actionButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+actionButton.Text = "Test Feature"
+actionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+actionButton.Font = Enum.Font.Gotham
+actionButton.Parent = mainFrame
+
+local btnCorner = Instance.new("UICorner")
+btnCorner.Parent = actionButton
