@@ -1,62 +1,96 @@
--- إنشاء الشاشة الرئيسية
+-- إنشاء الشاشة
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "KengerMenu"
+screenGui.Name = "NeonHub"
 screenGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+screenGui.ResetOnSpawn = false
 
--- إنشاء الإطار الرئيسي (المينو)
+-- الإطار الرئيسي مع تأثير الظل/التوهج
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "MainFrame"
-mainFrame.Size = UDim2.new(0, 300, 0, 400) -- العرض والارتفاع
-mainFrame.Position = UDim2.new(0.5, -150, 0.5, -200) -- التمركز في المنتصف
-mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30) -- لون داكن احترافي
+mainFrame.Size = UDim2.new(0, 400, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true -- تفعيل السحب
 mainFrame.Parent = screenGui
 
--- إضافة زوايا دائرية (لجعل الشكل احترافي)
 local uiCorner = Instance.new("UICorner")
-uiCorner.CornerRadius = UDim.new(0, 10)
+uiCorner.CornerRadius = UDim.new(0, 15)
 uiCorner.Parent = mainFrame
 
--- عنوان المينو
-local titleLabel = Instance.new("TextLabel")
-titleLabel.Size = UDim2.new(1, 0, 0, 50)
-titleLabel.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-titleLabel.Text = "Kenger Hub Pro"
-titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-titleLabel.TextSize = 20
-titleLabel.Font = Enum.Font.GothamBold
-titleLabel.Parent = mainFrame
+local uiStroke = Instance.new("UIStroke") -- إطار نيون نحيف
+uiStroke.Color = Color3.fromRGB(0, 170, 255)
+uiStroke.Thickness = 2
+uiStroke.Parent = mainFrame
 
-local titleCorner = Instance.new("UICorner")
-titleCorner.Parent = titleLabel
+-- الشريط العلوي
+local topBar = Instance.new("Frame")
+topBar.Size = UDim2.new(1, 0, 0, 40)
+topBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+topBar.BorderSizePixel = 0
+topBar.Parent = mainFrame
 
--- دالة لإنشاء أزرار بسهولة
-local function createButton(name, position, color)
-    local button = Instance.new("TextButton")
-    button.Name = name
-    button.Size = UDim2.new(0.8, 0, 0, 40)
-    button.Position = position
-    button.BackgroundColor3 = color
-    button.Text = name
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.Font = Enum.Font.Gotham
-    button.TextSize = 16
-    button.AutoButtonColor = true
-    button.Parent = mainFrame
+local topCorner = Instance.new("UICorner")
+topCorner.CornerRadius = UDim.new(0, 15)
+topCorner.Parent = topBar
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -20, 1, 0)
+title.Position = UDim2.new(0, 15, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "KENGER HUB | V2"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+title.Parent = topBar
+
+-- حاوية الأزرار
+local buttonContainer = Instance.new("Frame")
+buttonContainer.Size = UDim2.new(1, -40, 1, -60)
+buttonContainer.Position = UDim2.new(0, 20, 0, 50)
+buttonContainer.BackgroundTransparency = 1
+buttonContainer.Parent = mainFrame
+
+local layout = Instance.new("UIListLayout")
+layout.Padding = UDim.new(0, 10)
+layout.Parent = buttonContainer
+
+-- دالة إنشاء أزرار نيون احترافية
+local function createNeonButton(text)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(1, 0, 0, 45)
+    btn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    btn.Text = text
+    btn.TextColor3 = Color3.fromRGB(200, 200, 200)
+    btn.Font = Enum.Font.GothamMedium
+    btn.TextSize = 14
+    btn.AutoButtonColor = false
+    btn.Parent = buttonContainer
     
-    local btnCorner = Instance.new("UICorner")
-    btnCorner.CornerRadius = UDim.new(0, 6)
-    btnCorner.Parent = button
+    local bCorner = Instance.new("UICorner")
+    bCorner.CornerRadius = UDim.new(0, 8)
+    bCorner.Parent = btn
+
+    -- تأثيرات الماوس (Hover Effect)
+    btn.MouseEnter:Connect(function()
+        btn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+        btn.TextColor3 = Color3.fromRGB(0, 170, 255)
+    end)
     
-    -- إضافة تأثير عند الضغط (وهمي)
-    button.MouseButton1Click:Connect(function()
-        print("تم الضغط على: " .. name)
-        button.Text = "تم التفعيل ✅"
-        wait(1)
-        button.Text = name
+    btn.MouseLeave:Connect(function()
+        btn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+        btn.TextColor3 = Color3.fromRGB(200, 200, 200)
+    end)
+
+    btn.MouseButton1Click:Connect(function()
+        print("Executed: " .. text)
+        -- هنا يمكنك وضع كود الميزة
     end)
 end
 
 -- إضافة الأزرار
-createButton("Auto Farm", UDim2.new(0.1, 0, 0.3, 0), Color3.fromRGB(0, 150, 255))
-createButton("Speed Hack", UDim2.new(0.1, 0, 0.5, 0), Color3.fromRGB(255, 85, 85))
+createNeonButton("Speed Boost (Fast)")
+createNeonButton("Infinite Jump")
+createNeonButton("Teleport to End")
